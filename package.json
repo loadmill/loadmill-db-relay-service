@@ -1,0 +1,19 @@
+{
+  "name": "loadmill-db-relay-service",
+  "version": "1.0.0",
+  "description": "Enable customers to execute queries directly to their DB",
+  "main": "index.js",
+  "scripts": {
+    "test": "yarn test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loadmill/loadmill-db-relay-service.git"
+  },
+  "author": "Loadmill",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/loadmill/loadmill-db-relay-service/issues"
+  },
+  "homepage": "https://github.com/loadmill/loadmill-db-relay-service#readme"
+}

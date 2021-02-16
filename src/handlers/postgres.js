@@ -2,7 +2,10 @@ const { Client } = require('pg')
 
 const runQuery = async (connectionString, query) => {
   const client = new Client({
-    connectionString
+    connectionString,
+    ssl: {
+      rejectUnauthorized: false,
+    }
   });
 
   try {

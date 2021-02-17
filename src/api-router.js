@@ -13,7 +13,7 @@ apiRouter.post('/postgres', validate(postrgesValidation, {}, {}), async (req, re
     }
   } = req;
 
-  console.log('going to postgres run query', query);
+  console.log('going to run postgres query', query);
   const result = await runPostgresQuery(connectionString, query);
   console.log('got postgres result', result);
   res.send({ result });

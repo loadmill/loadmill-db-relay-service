@@ -1,12 +1,22 @@
 const { Joi } = require('express-validation')
 
-const relationalDbValidation = {
+const postrgesValidation = {
   body: Joi.object({
     connectionString: Joi.string().required(),
     query: Joi.string().required()
-    })
+  })
+};
+
+const redisDbValidation = {
+  body: Joi.object({
+    connectionString: Joi.string().required(),
+    command: Joi.string().required(),
+    key: Joi.string().required(),
+    field: Joi.string().optional()
+  })
 };
 
 module.exports = {
-  relationalDbValidation
+  postrgesValidation,
+  redisDbValidation
 };

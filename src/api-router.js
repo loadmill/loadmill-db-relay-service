@@ -1,10 +1,11 @@
 const Router = require('express-promise-router');
 const { validate } = require('express-validation');
-const { relationalDbValidation } = require('./validators/joi-validators');
-const { runQuery } = require('./handlers/postgres');
+const { postrgesValidation, redisDbValidation } = require('./validators/joi-validators');
+const { runQuery: runPostgresQuery } = require('./handlers/postgres');
+const { runQuery: runRedisQuery } = require('./handlers/redis');
 const apiRouter = Router();
 
-apiRouter.post('/postgres', validate(relationalDbValidation, {}, {}), async (req, res) => {
+apiRouter.post('/postgres', validate(postrgesValidation, {}, {}), async (req, res) => {
   const {
     body: {
       connectionString,
@@ -12,9 +13,32 @@ apiRouter.post('/postgres', validate(relationalDbValidation, {}, {}), async (req
     }
   } = req;
 
-  console.log('going to run query', query);
-  const result = await runQuery(connectionString, query)
-  res.send(result);
-})
+  console.log('going to postgres run query', query);
+  const result = await runPostgresQuery(connectionString, query);
+  console.log('got postgres result', result);
+  res.send({result});
+});
+
+apiRouter.post('/redis', validate(redisDbValidation, {}, {}), async (req, res) => {
+  const {
+    body: {
+      connectionString,
+      key,
+      command,
+      field
+    }
+  } = req;
+
+  console.log('going to run redis query', command, key, field);
+
+  try {
+
+    const result = await runRedisQuery(connectionString, command, key, field);
+    console.log('got redis result', result);
+    res.send({result});
+  } catch (error) {
+    console.error(error)
+  }
+});
 
 module.exports = apiRouter;

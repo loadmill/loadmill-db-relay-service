@@ -11,22 +11,21 @@ const runQuery = async (connectionString, command, key, field) => {
     });
 
     let asyncCommand;
-    const args = [key, field];
+    const args = [key];
+
     switch (command) {
       case 'get':
         asyncCommand = promisify(client.get).bind(client);
-        args.splice(1, 1);
         break;
       case 'hget':
         asyncCommand = promisify(client.hget).bind(client);
+        args.push(field);
         break;
       case 'hgetall':
         asyncCommand = promisify(client.hgetall).bind(client);
-        args.splice(1, 1);
         break;
       default:
         asyncCommand = promisify(client.get).bind(client);
-        args.splice(1, 1);
         break;
     }
 

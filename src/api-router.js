@@ -16,7 +16,7 @@ apiRouter.post('/postgres', validate(postrgesValidation, {}, {}), async (req, re
   console.log('going to postgres run query', query);
   const result = await runPostgresQuery(connectionString, query);
   console.log('got postgres result', result);
-  res.send({result});
+  res.send({ result });
 });
 
 apiRouter.post('/redis', validate(redisDbValidation, {}, {}), async (req, res) => {
@@ -30,15 +30,9 @@ apiRouter.post('/redis', validate(redisDbValidation, {}, {}), async (req, res) =
   } = req;
 
   console.log('going to run redis query', command, key, field);
-
-  try {
-
-    const result = await runRedisQuery(connectionString, command, key, field);
-    console.log('got redis result', result);
-    res.send({result});
-  } catch (error) {
-    console.error(error)
-  }
+  const result = await runRedisQuery(connectionString, command, key, field);
+  console.log('got redis result', result);
+  res.send({ result });
 });
 
 module.exports = apiRouter;

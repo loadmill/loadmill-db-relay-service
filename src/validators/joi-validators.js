@@ -7,7 +7,7 @@ const postrgesValidation = {
   })
 };
 
-const redisDbValidation = {
+const redisValidation = {
   body: Joi.object({
     connectionString: Joi.string().required(),
     command: Joi.string().required(),
@@ -18,5 +18,5 @@ const redisDbValidation = {
 
 module.exports = {
   postrgesValidation,
-  redisDbValidation
+  redisValidation
 };

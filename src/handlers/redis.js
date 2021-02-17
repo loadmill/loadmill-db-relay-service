@@ -3,10 +3,9 @@ const { promisify } = require("util");
 
 const runQuery = async (connectionString, command, key, field) => {
   let client;
+
   try {
-
     client = redis.createClient(connectionString);
-
     client.on("error", error => {
       client.quit();
     });
@@ -16,18 +15,18 @@ const runQuery = async (connectionString, command, key, field) => {
     switch (command) {
       case 'get':
         asyncCommand = promisify(client.get).bind(client);
-        args.splice(1,1);
+        args.splice(1, 1);
         break;
       case 'hget':
         asyncCommand = promisify(client.hget).bind(client);
         break;
       case 'hgetall':
         asyncCommand = promisify(client.hgetall).bind(client);
-        args.splice(1,1);
+        args.splice(1, 1);
         break;
       default:
         asyncCommand = promisify(client.get).bind(client);
-        args.splice(1,1);
+        args.splice(1, 1);
         break;
     }
 

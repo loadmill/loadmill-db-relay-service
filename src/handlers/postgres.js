@@ -13,6 +13,9 @@ const runQuery = async (connectionString, query) => {
     const res = await client.query(query);
     return res.rows;
   }
+  catch (err) {
+    throw { err: err.toString() };
+  }
   finally {
     client.end()
   }

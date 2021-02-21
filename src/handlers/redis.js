@@ -10,29 +10,16 @@ const runQuery = async (connectionString, command, key, field) => {
       client.quit();
     });
 
-    let asyncCommand;
     const args = [key];
 
-    switch (command) {
-      case 'get':
-        asyncCommand = promisify(client.get).bind(client);
-        break;
-      case 'hget':
-        asyncCommand = promisify(client.hget).bind(client);
-        args.push(field);
-        break;
-      case 'hgetall':
-        asyncCommand = promisify(client.hgetall).bind(client);
-        break;
-      default:
-        asyncCommand = promisify(client.get).bind(client);
-        break;
+    if (command === 'hget') {
+      args.push(field);
     }
-
+    
+    const asyncCommand = promisify(client[command]).bind(client);
     const res = await asyncCommand.apply(null, args);
     return res;
   }
-  catch { }
   finally {
     client.quit()
   }

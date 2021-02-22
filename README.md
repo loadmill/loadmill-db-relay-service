@@ -7,7 +7,7 @@ Enable customers to execute queries directly to their DB
 
 Execute queries directly to postgres:
 
-https://loadmill-db-relay-service/api/postgres
+https://db-relay-service.loadmill.com/api/postgres
 
 ```js
 
@@ -17,9 +17,24 @@ body: {
 }
 ```
 
+Execute queries directly to mongodb:
+
+https://db-relay-service.loadmill.com/api/mongo
+
+```js
+
+body: {
+  connectionString: 'mongodb://...'
+  collection: 'bios',
+  command: 'find',
+  query: { "awards.award": "Turing Award" }
+}
+```
+
+
 Execute queries directly to redis:
 
-https://loadmill-db-relay-service/api/redis
+https://db-relay-service.loadmill.com/api/redis
 
 ```js
 

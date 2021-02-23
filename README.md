@@ -48,3 +48,23 @@ body: {
 }
 ```
 
+## Usage
+
+Build docker image:
+
+```js
+docker build -t db-relay-service .
+```
+
+Build docker container:
+
+```js
+docker run -it -p 8080:8080 db-relay-service
+```
+
+Stop docker container:
+
+```js
+docker ps 
+docker stop ${CONTAINER ID}
+```

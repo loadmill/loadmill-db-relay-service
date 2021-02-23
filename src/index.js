@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const cluster = require('cluster');
 const { ValidationError } = require('express-validation')
 const apiRouter = require('./api-router');
-const port = process.env.PORT || process.argv[2] || 8000;
+const port = process.env.PORT || process.argv[2] || 8080;
 
 if (cluster.isMaster) {
   const cpuCount = require('os').cpus().length;

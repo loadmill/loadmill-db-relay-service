@@ -38,6 +38,7 @@ const runQuery = async (connectionString, query) => {
     return res.rows;
   }
   catch (err) {
+    console.error(err);
     throw { err: err.toString() };
   }
   finally {

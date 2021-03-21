@@ -19,8 +19,6 @@ if (cluster.isMaster) {
 else {
   const app = express()
 
-  const fixieUrl = process.env.FIXIE_SOCKS_HOST;
-
   app.use(bodyParser.json())
   
   app.use('/api', apiRouter);

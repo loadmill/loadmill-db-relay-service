@@ -20,7 +20,6 @@ else {
   const app = express()
 
   const fixieUrl = process.env.FIXIE_SOCKS_HOST;
-  console.log("fixieUrl", fixieUrl);
 
   app.use(bodyParser.json())
   

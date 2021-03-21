@@ -1,7 +1,7 @@
 const { Client } = require('pg')
 const SocksConnection = require('socksjs');
 
-const fixieUrl = process.env.FIXIE_SOCKS_HOST;
+const fixieUrl = process.env.FIXIE_SOCKS_HOST || 'fixie:VuZN5r5LbO1j6qy@speedway.usefixie.com:1080';
 const fixieValues = fixieUrl? fixieUrl.split(new RegExp('[/(:\\/@)/]+')) : [];
 
   console.log("fixieValues", fixieValues);
@@ -25,7 +25,9 @@ const runQuery = async (connectionString, query) => {
   });
 
   const client = new Client({
-    connectionString,
+    user: postgresValues[1],
+    password: postgresValues[2],
+    database: postgresValues[5],
     stream: fixieConnection,
     ssl: {
       rejectUnauthorized: false,

@@ -10,6 +10,7 @@
   "addons": [
     "heroku-postgresql",
     "heroku-redis",
-    "papertrail"
+    "papertrail",
+    "fixie-socks"
   ]
 }

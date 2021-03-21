@@ -16,7 +16,7 @@ const runQuery = async (connectionString, query) => {
     host: postgresValues[3],
     port: postgresValues[4]
   };
-
+  
   const fixieConnection = new SocksConnection(pgServer, {
     user: fixieValues[0],
     pass: fixieValues[1],
@@ -25,9 +25,7 @@ const runQuery = async (connectionString, query) => {
   });
 
   const client = new Client({
-    user: postgresValues[1],
-    password: postgresValues[2],
-    database: postgresValues[5],
+    connectionString,
     stream: fixieConnection,
     ssl: {
       rejectUnauthorized: false,

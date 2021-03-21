@@ -4,9 +4,13 @@ const SocksConnection = require('socksjs');
 const fixieUrl = process.env.FIXIE_SOCKS_HOST;
 const fixieValues = fixieUrl? fixieUrl.split(new RegExp('[/(:\\/@)/]+')) : [];
 
+  console.log("fixieValues", fixieValues);
+
 const runQuery = async (connectionString, query) => {
 
   const postgresValues = connectionString.split(new RegExp('[/(:\\/@)/]+'));
+
+  console.log("postgresValues", postgresValues);
 
   const pgServer = {
     host: postgresValues[3],

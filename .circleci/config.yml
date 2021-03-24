@@ -21,8 +21,6 @@ jobs:
 
       - run: yarn install
 
-      - run: yarn run build
-
       - run:
           name: Build Docker image, Push to ECR, Push to s3, Deploy to Beanstalk
           command: |

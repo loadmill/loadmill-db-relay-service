@@ -40,11 +40,11 @@ jobs:
             DOCKERRUN_FILE_NAME=Dockerrun.aws.db-relay-service._${IMAGE_VERSION}.json
             AWS_JSON_TEMPLATE='{"AWSEBDockerrunVersion": "1", "Image": {"Name": "'"$TAG"'","Update": "true"},"Ports": [{"ContainerPort": "3000"}],"Volumes":[],"Logging": "/var/log/db-relay-service"}'
             echo ${AWS_JSON_TEMPLATE} > ${DOCKERRUN_FILE_NAME}
-            aws s3 cp ${DOCKERRUN_FILE_NAME} s3://${S3_ROOT_BUCKET}/${S3_BUCKET_SUBFOLDER}/${DOCKERRUN_FILE_NAME}
+            aws s3 cp ${DOCKERRUN_FILE_NAME} s3://${S3_ROOT_BUCKET}/${DOCKERRUN_FILE_NAME}
 
             #Deploy to Beanstalk
             aws elasticbeanstalk create-application-version --application-name ${BEANSTALK_APPLICATION_NAME} \
-              --version-label ${IMAGE_VERSION} --source-bundle S3Bucket="${S3_ROOT_BUCKET}",S3Key="${S3_BUCKET_SUBFOLDER}/${DOCKERRUN_FILE_NAME}" --region ${REGION}
+              --version-label ${IMAGE_VERSION} --source-bundle S3Bucket="${S3_ROOT_BUCKET}",S3Key="${DOCKERRUN_FILE_NAME}" --region ${REGION}
 
             aws elasticbeanstalk update-environment --application-name ${BEANSTALK_APPLICATION_NAME} \
                 --environment-name ${BEANSTALK_ENVIRONMENT_NAME} --version-label ${IMAGE_VERSION} --region ${REGION}

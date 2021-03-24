@@ -38,7 +38,7 @@ jobs:
 
             #Push to S3
             DOCKERRUN_FILE_NAME=Dockerrun.aws.db-relay-service._${IMAGE_VERSION}.json
-            AWS_JSON_TEMPLATE='{"AWSEBDockerrunVersion": "1", "Image": {"Name": "'"$TAG"'","Update": "true"},"Ports": [{"ContainerPort": "3000"}],"Volumes":[],"Logging": "/var/log/db-relay-service"}'
+            AWS_JSON_TEMPLATE='{"AWSEBDockerrunVersion": "1", "Image": {"Name": "'"$TAG"'","Update": "true"},"Ports": [{"ContainerPort": "8080"}],"Volumes":[],"Logging": "/var/log/db-relay-service"}'
             echo ${AWS_JSON_TEMPLATE} > ${DOCKERRUN_FILE_NAME}
             aws s3 cp ${DOCKERRUN_FILE_NAME} s3://${S3_ROOT_BUCKET}/${DOCKERRUN_FILE_NAME}
 

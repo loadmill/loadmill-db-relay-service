@@ -20,8 +20,12 @@ else {
   const app = express()
 
   app.use(bodyParser.json())
-  
+
   app.use('/api', apiRouter);
+
+  app.use('/', async (req, res) => {
+    res.sendStatus(200);
+  });
 
   app.use(function (err, req, res, next) {
     if (err instanceof ValidationError) {

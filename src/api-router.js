@@ -6,6 +6,10 @@ const { runQuery: runRedisQuery } = require('./handlers/redis');
 const { runQuery: runMongoQuery } = require('./handlers/mongo');
 const apiRouter = Router();
 
+apiRouter.get('/', async (req, res) => {
+  res.sendStatus(200);
+});
+
 apiRouter.post('/postgres', validate(postrgesValidation, {}, {}), async (req, res) => {
   const {
     body: {

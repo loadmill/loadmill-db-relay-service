@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cluster = require('cluster');
 const { ValidationError } = require('express-validation')
 const apiRouter = require('./api-router');
+
 const port = process.env.PORT || process.argv[2] || 8080;
 
 if (cluster.isMaster) {
@@ -23,8 +24,12 @@ else {
 
   app.use('/api', apiRouter);
 
+
+  const superagent = require('superagent');
+ 
   app.use('/', async (req, res) => {
-    res.sendStatus(200);
+    const {body} = await superagent.get('https://api64.ipify.org?format=json');
+    res.send(body);
   });
 
   app.use(function (err, req, res, next) {

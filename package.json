@@ -1,6 +1,6 @@
 {
   "name": "loadmill-db-relay-service",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Enable customers to execute queries directly to their DB",
   "main": "index.js",
   "scripts": {

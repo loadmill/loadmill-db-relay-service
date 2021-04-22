@@ -1,10 +1,10 @@
 const MongoClient = require('mongodb').MongoClient;
 const runQuery = async (connectionString, collectionName, command, query = {}) => {
 
-  if (process.env.ALLOWED_DOMAINS) {
-    allowedDomains = process.env.ALLOWED_DOMAINS.split(',');
-    if (!allowedDomains.includes(getHost(connectionString))) {
-      throw { err: 'Domain is not allowed' };
+  if (process.env.ALLOWED_HOSTS) {
+    allowedHosts = process.env.ALLOWED_HOSTS.split(',');
+    if (!allowedHosts.includes(getHost(connectionString))) {
+      throw { err: 'Host is not allowed' };
     }
   }
 
@@ -23,12 +23,12 @@ const runQuery = async (connectionString, collectionName, command, query = {}) =
 }
 
 const getHost = connectionString => {
-  const regexExpression = connectionString.indexOf('@') >= 0 ? /(?<=(@))(.*)(?=:)/ : /(?<=\/\/)(.*)(?=:)/;
+  const regexExpression = connectionString.includes('@') ? /(?<=(@))(.*)(?=:)/ : /(?<=\/\/)(.*)(?=:)/;
   const tokens = regexExpression.exec(connectionString);
 
   if (Array.isArray(tokens)) {
     const host = tokens[0];
-    return host.indexOf(":") >= 0 ? host.split(':')[0] : host;
+    return host.includes(":") ? host.split(':')[0] : host;
   }
   else {
     throw { err: 'Connection string is not valid' }

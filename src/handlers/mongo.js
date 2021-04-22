@@ -36,5 +36,6 @@ const getHost = connectionString => {
 }
 
 module.exports = {
-  runQuery
+  runQuery,
+  getHost
 };

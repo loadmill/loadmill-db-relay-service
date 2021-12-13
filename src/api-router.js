@@ -2,6 +2,7 @@ const Router = require('express-promise-router');
 const { validate } = require('express-validation');
 const { postrgesValidation, redisValidation, mongoValidation } = require('./validators/joi-validators');
 const { runQuery: runPostgresQuery } = require('./handlers/postgres');
+const { runQuery: runMysqlQuery } = require('./handlers/mysql');
 const { runQuery: runRedisQuery } = require('./handlers/redis');
 const { runQuery: runMongoQuery } = require('./handlers/mongo');
 const apiRouter = Router();
@@ -17,6 +18,20 @@ apiRouter.post('/postgres', validate(postrgesValidation, {}, {}), async (req, re
   console.log('going to run postgres query', query);
   const result = await runPostgresQuery(connectionString, query);
   console.log('got postgres result', result);
+  res.send({ result });
+});
+
+apiRouter.post('/mysql', validate(postrgesValidation, {}, {}), async (req, res) => {
+  const {
+    body: {
+      connectionString,
+      query
+    }
+  } = req;
+
+  console.log('going to run mysql query', query);
+  const result = await runMysqlQuery(connectionString, query);
+  console.log('got mysql result', result);
   res.send({ result });
 });
 

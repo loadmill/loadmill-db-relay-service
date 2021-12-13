@@ -17,6 +17,18 @@ body: {
 }
 ```
 
+Execute queries directly to mysql:
+
+https://db-relay-service.loadmill.com/api/mysql
+
+```js
+
+body: {
+  connectionString: 'mysql://...'
+  query: 'SELECT NOW()'
+}
+```
+
 Execute queries directly to mongodb:
 
 https://db-relay-service.loadmill.com/api/mongo

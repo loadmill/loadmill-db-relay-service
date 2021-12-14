@@ -1,6 +1,6 @@
 const { Joi } = require('express-validation')
 
-const postrgesValidation = {
+const sqlServerValidation = {
   body: Joi.object({
     connectionString: Joi.string().required(),
     query: Joi.string().required()
@@ -27,7 +27,7 @@ const mongoValidation = {
 };
 
 module.exports = {
-  postrgesValidation,
+  sqlServerValidation,
   redisValidation,
   mongoValidation
 };

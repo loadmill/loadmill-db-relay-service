@@ -1,9 +1,8 @@
 # loadmill-db-relay-service
-Enable customers to execute queries directly to their DB
 
+Enable customers to execute queries directly to their DB.
 
 ## Usage
-
 
 Execute queries directly to postgres:
 
@@ -42,7 +41,6 @@ body: {
   query: { "awards.award": "Turing Award" }
 }
 ```
-
 
 Execute queries directly to redis:
 

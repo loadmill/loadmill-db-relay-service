@@ -9,10 +9,14 @@ const runQuery = async (connectionString, collectionName, command, query = {}, u
   }
 
   let client;
+  let opts = {};
   try {
-    client = await MongoClient.connect(connectionString, { useUnifiedTopology });
+    if (useUnifiedTopology) {
+      opts = {useUnifiedTopology: true, useNewUrlParser: true};
+    }
+    client = await MongoClient.connect(connectionString, opts);
     const db = client.db();
-    return db.collection(collectionName)[command](query).toArray();
+    return await db.collection(collectionName)[command](query).toArray();
   }
   catch (err) {
     throw { err: err.toString() };

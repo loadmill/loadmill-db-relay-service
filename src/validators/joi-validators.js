@@ -22,6 +22,7 @@ const mongoValidation = {
     collection: Joi.string().required(),
     command: Joi.string().valid('find').required(),
     query: Joi.object().optional(),
+    useUnifiedTopology: Joi.boolean().optional(),
     cursor: Joi.string().optional()
   })
 };

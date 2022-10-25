@@ -8,7 +8,7 @@ let mongo = {
   useUnifiedTopology: Joi.boolean().optional(),
   cursor: Joi.string().optional()
 };
-if (!process.env.MONGO_ALLOW_ALTERING) {  
+if (!process.env.ALLOW_ALTERING) {  
   mongo.command = Joi.string().valid('find').required()
 } else {
   mongo.command = Joi.string()

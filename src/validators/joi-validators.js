@@ -1,5 +1,26 @@
 const { Joi } = require('express-validation')
 
+let mongo = {
+  connectionString: Joi.string().required(),
+  collection: Joi.string().required(),
+  query: Joi.object().optional(),
+  command: Joi.string().required(),
+  useUnifiedTopology: Joi.boolean().optional(),
+  cursor: Joi.string().optional()
+};
+if (!process.env.MONGO_ALLOW_ALTERING) {  
+  mongo.command = Joi.string().valid('find').required()
+} else {
+  mongo.command = Joi.string()
+    .valid('find')
+    .valid('updateOne')
+    .valid('updateMany')
+    .valid('deleteOne')
+    .valid('deleteMany')
+    .required()
+  mongo.update = Joi.object().optional()
+}
+
 const sqlServerValidation = {
   body: Joi.object({
     connectionString: Joi.string().required(),
@@ -17,14 +38,7 @@ const redisValidation = {
 };
 
 const mongoValidation = {
-  body: Joi.object({
-    connectionString: Joi.string().required(),
-    collection: Joi.string().required(),
-    command: Joi.string().valid('find').required(),
-    query: Joi.object().optional(),
-    useUnifiedTopology: Joi.boolean().optional(),
-    cursor: Joi.string().optional()
-  })
+  body: Joi.object(mongo)
 };
 
 module.exports = {

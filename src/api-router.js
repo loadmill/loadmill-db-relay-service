@@ -59,11 +59,12 @@ apiRouter.post('/mongo', validate(mongoValidation, {}, {}), async (req, res) => 
       command, 
       query,
       useUnifiedTopology,
+      update,
     }
   } = req;
 
-  console.log('going to run mongo query', collection, command, query);
-  const result = await runMongoQuery(connectionString, collection, command, query, useUnifiedTopology);
+  console.log('going to run mongo query', collection, command, query, update);
+  const result = await runMongoQuery(connectionString, collection, command, query, update, useUnifiedTopology);
   console.log('got mongo result', result);
   res.send({ result });
 });

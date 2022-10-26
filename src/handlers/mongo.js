@@ -1,4 +1,6 @@
 const MongoClient = require('mongodb').MongoClient;
+const { METHODS } = require('../constants/mongo');
+
 const runQuery = async (connectionString, collectionName, command, query = {}, update, useUnifiedTopology) => {
 
   if (process.env.ALLOWED_HOSTS) {
@@ -45,8 +47,10 @@ module.exports = {
 };
 
 async function execute(db, collectionName, command, query, update) {
-  if (update && command !== 'find') {
-    return (await db.collection(collectionName)[command](query, update)).result;
+  const collection = db.collection(collectionName);
+  if (update && [METHODS.UPDATE_ONE, METHODS.UPDATE_MANY].includes(command)) {
+    return (await collection[command](query, update)).result;
   }
-  return await db.collection(collectionName)[command](query).toArray();
+  const res = await collection[command](query);
+  return command === METHODS.FIND ? res.toArray() : res.result;
 }

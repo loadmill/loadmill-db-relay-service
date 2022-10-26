@@ -1,22 +1,27 @@
 const { Joi } = require('express-validation')
+const { METHODS } = require('../constants/mongo.js');
 
 let mongo = {
   connectionString: Joi.string().required(),
   collection: Joi.string().required(),
-  query: Joi.object().optional(),
+  query: Joi.alternatives().try(Joi.object(), Joi.array()).optional(),
   command: Joi.string().required(),
   useUnifiedTopology: Joi.boolean().optional(),
   cursor: Joi.string().optional()
 };
 if (!process.env.ALLOW_ALTERING) {  
-  mongo.command = Joi.string().valid('find').required()
+  mongo.command = Joi.string().valid(METHODS.FIND).required()
 } else {
   mongo.command = Joi.string()
-    .valid('find')
-    .valid('updateOne')
-    .valid('updateMany')
-    .valid('deleteOne')
-    .valid('deleteMany')
+    .valid(
+      METHODS.FIND,
+      METHODS.UPDATE_ONE,
+      METHODS.UPDATE_MANY,
+      METHODS.DELETE_ONE,
+      METHODS.DELETE_MANY,
+      METHODS.INSERT_ONE,
+      METHODS.INSERT_MANY,
+    )
     .required()
   mongo.update = Joi.object().optional()
 }

@@ -1,0 +1,50 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12.15.0
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install awscli
+
+      - run: yarn install
+
+      - run:
+          name: Build Docker image, Push to ECR, Push to s3, Deploy to Beanstalk
+          command: |
+            #Build Docker image
+            PACKAGE_JSON_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
+            IMAGE_VERSION=${PACKAGE_JSON_VERSION}_${CIRCLE_BUILD_NUM}
+            TAG="${ECR_BASE_URL}/${ECR_REPO_NAME}:${IMAGE_VERSION}"
+            docker build -t "${TAG}" --build-arg NPM_TOKEN=${NPM_TOKEN} .
+
+            #Push to ECR
+            aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
+            aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
+            aws ecr get-login --region ${REGION}| awk '{printf $6}' | docker login -u AWS --password-stdin https://${ECR_BASE_URL}
+            docker push ${TAG}
+
+            #Push to S3
+            DOCKERRUN_FILE_NAME=Dockerrun.aws.db-relay-service._${IMAGE_VERSION}.json
+            AWS_JSON_TEMPLATE='{"AWSEBDockerrunVersion": "1", "Image": {"Name": "'"$TAG"'","Update": "true"},"Ports": [{"ContainerPort": "8080"}],"Volumes":[],"Logging": "/var/log/db-relay-service"}'
+            echo ${AWS_JSON_TEMPLATE} > ${DOCKERRUN_FILE_NAME}
+            aws s3 cp ${DOCKERRUN_FILE_NAME} s3://${S3_ROOT_BUCKET}/${DOCKERRUN_FILE_NAME}
+
+            #Deploy to Beanstalk
+            aws elasticbeanstalk create-application-version --application-name ${BEANSTALK_APPLICATION_NAME} \
+              --version-label ${IMAGE_VERSION} --source-bundle S3Bucket="${S3_ROOT_BUCKET}",S3Key="${DOCKERRUN_FILE_NAME}" --region ${REGION}
+
+            aws elasticbeanstalk update-environment --application-name ${BEANSTALK_APPLICATION_NAME} \
+                --environment-name ${BEANSTALK_ENVIRONMENT_NAME} --version-label ${IMAGE_VERSION} --region ${REGION}

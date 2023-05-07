@@ -1,0 +1,15 @@
+{
+  "name": "loadmill-db-relay-service",
+  "scripts": {},
+  "stack": "heroku-18",
+  "env": {
+    "HEROKU_APP_NAME": {
+      "required": true
+    }
+  },
+  "addons": [
+    "heroku-postgresql",
+    "heroku-redis",
+    "papertrail"
+  ]
+}

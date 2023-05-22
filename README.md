@@ -1,12 +1,14 @@
 # loadmill-db-relay-service
 
-Enable customers to execute queries directly to their DB.
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
+
+Loadmill's Database Relay Service provides a simple way to interact with your databases using HTTP requests as part of API and integration tests. By enabling the execution of queries directly to PostgreSQL, MySQL, MongoDB, and Redis databases, it greatly simplifies the incorporation of databases in your API tests. The ability to query data sources and assert over the response during a test serves as a powerful tool for validating test results.
 
 ## Usage
 
 Execute queries directly to postgres:
 
-https://<www.your-domain.com>/api/postgres
+`https://<www.your-domain.com>/api/postgres`
 
 ```js
 
@@ -18,7 +20,7 @@ body: {
 
 Execute queries directly to mysql:
 
-https://<www.your-domain.com>/api/mysql
+`https://<www.your-domain.com>/api/mysql`
 
 ```js
 
@@ -30,7 +32,7 @@ body: {
 
 Execute queries directly to mongodb:
 
-https://<www.your-domain.com>/api/mongo
+`https://<www.your-domain.com>/api/mongo`
 
 ```js
 
@@ -44,7 +46,7 @@ body: {
 
 Execute queries directly to redis:
 
-https://<www.your-domain.com>/api/redis
+`https://<www.your-domain.com>/api/redis`
 
 ```js
 

@@ -1,10 +1,11 @@
 const Router = require('express-promise-router');
 const { validate } = require('express-validation');
-const { sqlServerValidation: sqlServerValidation, redisValidation, mongoValidation } = require('./validators/joi-validators');
+const { sqlServerValidation: sqlServerValidation, redisValidation, mongoValidation, oracleValidation } = require('./validators/joi-validators');
 const { runQuery: runPostgresQuery } = require('./handlers/postgres');
 const { runQuery: runMysqlQuery } = require('./handlers/mysql');
 const { runQuery: runRedisQuery } = require('./handlers/redis');
 const { runQuery: runMongoQuery } = require('./handlers/mongo');
+const { runQuery: runOracleQuery } = require('./handlers/oracle');
 const apiRouter = Router();
 
 apiRouter.post('/postgres', validate(sqlServerValidation, {}, {}), async (req, res) => {
@@ -18,6 +19,21 @@ apiRouter.post('/postgres', validate(sqlServerValidation, {}, {}), async (req, r
   console.log('going to run postgres query', query);
   const result = await runPostgresQuery(connectionString, query);
   console.log('got postgres result', result);
+  res.send({ result });
+});
+
+apiRouter.post('/oracle', validate(oracleValidation, {}, {}), async (req, res) => {
+  const {
+    body: {
+      connectionString,
+      user,
+      password,
+      query
+    }
+  } = req;
+  console.log('going to run oracle query', query);
+  const result = await runOracleQuery(connectionString, user, password, query);
+  console.log('got oracle result', result);
   res.send({ result });
 });
 

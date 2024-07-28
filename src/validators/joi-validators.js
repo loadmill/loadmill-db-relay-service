@@ -33,6 +33,15 @@ const sqlServerValidation = {
   })
 };
 
+const oracleValidation = {
+  body: Joi.object({
+    connectionString: Joi.string().required(),
+    user: Joi.string().required(),
+    password: Joi.string().required(),
+    query: Joi.string().required()
+  })
+};
+
 const redisValidation = {
   body: Joi.object({
     connectionString: Joi.string().required(),
@@ -48,6 +57,7 @@ const mongoValidation = {
 
 module.exports = {
   sqlServerValidation,
+  oracleValidation,
   redisValidation,
   mongoValidation
 };

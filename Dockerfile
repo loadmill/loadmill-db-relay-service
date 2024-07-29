@@ -1,4 +1,4 @@
-FROM node:12.15.0-alpine
+FROM node:14.16.0-alpine
 WORKDIR /usr/src/app/loadmill-db-relay-service
 
 COPY . .

@@ -3,7 +3,7 @@ const oracledb = require('oracledb');
 const runQuery = async (connectionString, user, password, query) => {
   const connection = await getOracleConnection(connectionString, user, password); 
   try {
-    const result = await connection.execute(query, {}, { autoCommit: true });
+    const result = await connection.execute(query, {}, { autoCommit: true, outFormat: oracledb.OUT_FORMAT_OBJECT });
     return result.rows;
   } catch (err) {
     throw { err: err.toString() };
